@@ -52,7 +52,6 @@ public class AuthServiceImpl implements AuthService{
         auth = jwtAuthenticationProvider.authenticate(auth);
 
         return tokenService.createToken(auth);
-
     }
 
     @Override

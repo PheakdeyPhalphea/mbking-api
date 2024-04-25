@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Slf4j
 public class CustomUserDetails implements UserDetails {
 
     private User user;
@@ -25,14 +28,15 @@ public class CustomUserDetails implements UserDetails {
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-      user.getRoles().forEach(
-              role -> {authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
-                 role.getAuthorities().forEach(authority -> {authorities.add(new SimpleGrantedAuthority(authority.getName()));
-                 });
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+            role.getAuthorities().forEach(authority -> {
+                log.info("authority :{}",authority);
+                authorities.add(new SimpleGrantedAuthority(authority.getName()));
+            });
+        });
 
-              }
-      );
-      return authorities;
+        return authorities;
     }
 
     @Override

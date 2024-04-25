@@ -27,6 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         customUserDetails.setUser(user);
 
         log.info("User: {}", user);
+        log.info("Authorities: {}", customUserDetails.getAuthorities());
 
         return customUserDetails;
     }
